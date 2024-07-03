@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pinocchio?currentSchema=pnc_schema
+    url: jdbc:postgresql://localhost:5432/pinocchio
     username: pinocchio
     password: pnc12345
     driver-class-name: org.postgresql.Driver
