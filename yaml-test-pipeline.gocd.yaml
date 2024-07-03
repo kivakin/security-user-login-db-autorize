@@ -1,0 +1,30 @@
+format_version: 10
+pipelines:
+  yaml-test-pipeline:
+    group: defaultGroup
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-5913e5f:
+        git: https://github.com/kivakin/security-user-login-db-autorize.git
+        username: rhs
+        shallow_clone: false
+        auto_update: true
+        branch: master
+        encrypted_password: AES:c7AljGKz6RneO79oIrCEEQ==:HVpACJ4/fAse2qcU+AqaNnlkhuvrBIie4la3KJay+XukSLWAu3L8nA1yOXDLTdMA
+    stages:
+    - state-detail:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          run-unit-job:
+            timeout: 0
+            tasks:
+            - exec:
+                command: ./gradlew
+                run_if: passed
