@@ -49,11 +49,23 @@ public class CustomDynamicAuthorizationManager implements AuthorizationManager<R
     }
 
     private void setMapping() {
+        // mappings = dynamicAuthorizationService.getUrlRoleMappings()
+        // .entrySet().stream()
+        // .map(entry -> new RequestMatcherEntry<>(
+        //         new MvcRequestMatcher(handlerMappingIntrospector, entry.getKey()),
+        //         customAuthorizationManager(entry.getValue())))
+        // .collect(Collectors.toList());
         mappings = dynamicAuthorizationService.getUrlRoleMappings()
         .entrySet().stream()
-        .map(entry -> new RequestMatcherEntry<>(
-                new MvcRequestMatcher(handlerMappingIntrospector, entry.getKey()),
-                customAuthorizationManager(entry.getValue())))
+        .map(entry -> {
+            // 키 값으로부터 url 값만 추출해서 설정
+            String url = entry.getKey().substring(entry.getKey().indexOf("|")+1);
+            RequestMatcherEntry<AuthorizationManager<RequestAuthorizationContext>> requestMatcherEntry
+                    = new RequestMatcherEntry<>(
+                    new MvcRequestMatcher(handlerMappingIntrospector, url),
+                    customAuthorizationManager(entry.getValue()));
+                    return requestMatcherEntry;
+        })
         .collect(Collectors.toList());
     }
 
