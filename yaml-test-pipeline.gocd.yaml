@@ -22,9 +22,16 @@ pipelines:
           type: success
           allow_only_on_success: false
         jobs:
-          run-unit-job:
+          build-job:
             timeout: 0
             tasks:
             - exec:
                 command: ./gradlew
                 run_if: passed
+          test-job:
+            - exec:
+                command: echo "test done"
+          deploy-job:
+            - exec:
+                command: echo "deploy done"
+            
